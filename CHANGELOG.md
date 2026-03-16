@@ -1,5 +1,6 @@
 ## v1.6.2 (16 Mar 2026)
-- improved CPU consumption when no or (very less) packets 
+- improved CPU consumption when no or (very less) packets are being proccessed in online capture mode
+- clarified execution log (output on the commandline, and syslog)
 
 ## v1.6.1 (21 Nov 2025)
 - fixed bug which prevents session-based reports when `stack-type` is not 1. This occurs when analysing non Ethernet-based traffic, e.g., a TUN device.
