@@ -318,12 +318,13 @@ static inline void _print_pcap_stats( const probe_context_t *context ){
 		}else{
 			u_int pkt_received = pcs.ps_recv;
 			u_int pkt_dropped  = pcs.ps_ifdrop + pcs.ps_drop;
-			log_write_dual( LOG_INFO, "System received %d packets, dropped %d (%.2f%% = %.2f%% by NIC + %.2f%% by kernel)",
+			log_write_dual( LOG_INFO, "System received %d packets, dropped %d (%.2f%% = %.2f%% by NIC + %.2f%% by Kernel)",
 					pkt_received,
 					pkt_dropped,
-					pkt_dropped   * 100.0 / pkt_received,
-					pcs.ps_ifdrop * 100.0 / pkt_received,
-					pcs.ps_drop   * 100.0 / pkt_received);
+					pkt_received == 0? 0 : (pkt_dropped   * 100.0 / pkt_received),
+					pkt_received == 0? 0 : (pcs.ps_ifdrop * 100.0 / pkt_received),
+					pkt_received == 0? 0 : (pcs.ps_drop   * 100.0 / pkt_received)
+			);
 		}
 	}
 }
