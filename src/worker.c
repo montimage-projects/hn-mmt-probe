@@ -72,7 +72,7 @@ void worker_print_common_statistics( const probe_context_t *context ){
 		log_write_dual( LOG_INFO, "MMT processed %"PRIu64" packets, dropped %"PRIu64" packets (%.2f%%)"SEC_MSG_FORMAT,
 				context->smp[0]->stat.pkt_processed,
 				context->smp[0]->stat.pkt_dropped,
-				context->smp[0]->stat.pkt_dropped * 100.0 / (context->smp[0]->stat.pkt_processed + context->smp[0]->stat.pkt_dropped)
+				PERCENTAGE(context->smp[0]->stat.pkt_dropped, ((context->smp[0]->stat.pkt_processed + context->smp[0]->stat.pkt_dropped)))
 #ifdef SECURITY_MODULE
 				,context->smp[0]->stat.alert_generated
 #endif
