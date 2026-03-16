@@ -358,7 +358,20 @@ static inline void _pcap_capture_release( probe_context_t *context ){
 	mmt_probe_free( context->modules.pcap );
 }
 
+static inline int _sleep(pcap_t *pcap ){
+	int pcap_fd = pcap_get_selectable_fd( pcap );
 
+	fd_set rfds;
+	FD_ZERO(&rfds);
+	FD_SET(pcap_fd, &rfds);
+
+	struct timeval tv;
+	tv.tv_sec = 0;
+	tv.tv_usec = 100*1000*1000; //100 ms
+
+	int ret = select(pcap_fd + 1, &rfds, NULL, NULL, &tv);
+	return ret;
+}
 
 //public API
 void pcap_capture_start( probe_context_t *context ){
@@ -538,7 +551,8 @@ void pcap_capture_start( probe_context_t *context ){
 				// such as, worker_on_timer_stat_period, worker_on_timer_sample_file_period
 				_got_a_packet( (u_char*) context, NULL, NULL );
 				//we need to small sleep here to wait for a new packet
-				nanosleep( (const struct timespec[]){{0, 100000L}}, NULL );
+				//nanosleep( (const struct timespec[]){{0, 100*1000L}}, NULL );
+				_sleep( pcap );
 			}
 		}else if( ret > 0 )
 			continue;
