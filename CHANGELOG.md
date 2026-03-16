@@ -1,3 +1,6 @@
+## v1.6.2 (16 Mar 2026)
+- improved CPU consumption when no or (very less) packets 
+
 ## v1.6.1 (21 Nov 2025)
 - fixed bug which prevents session-based reports when `stack-type` is not 1. This occurs when analysing non Ethernet-based traffic, e.g., a TUN device.
 
