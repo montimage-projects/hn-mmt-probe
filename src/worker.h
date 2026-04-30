@@ -55,13 +55,16 @@ struct worker_context_struct{
 
 	dpi_context_t *dpi_context;
 
-	//input capturing, either PCAP or DPDK capture is used but not both of them
-	//This checking is done in main.c when compiling
+	//input capturing; exactly one of PCAP, DPDK, or EBPF is active per build
+	//Mutual exclusion is enforced by main.c preprocessor checks
 	IF_ENABLE_PCAP(
 			struct pcap_worker_context_struct *pcap );
 
 	IF_ENABLE_DPDK(
 			struct dpdk_worker_context_struct *dpdk );
+
+	IF_ENABLE_EBPF(
+			struct ebpf_worker_context_struct *ebpf );
 
 
 	IF_ENABLE_SECURITY(

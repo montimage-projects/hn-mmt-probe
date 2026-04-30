@@ -260,19 +260,33 @@ endif
 
 # to use DPDK to capture packet
 $(eval $(call EXPORT_TARGET,DPDK_CAPTURE))
+# to use eBPF/AF_XDP to capture packet
+$(eval $(call EXPORT_TARGET,EBPF_CAPTURE))
 
 ifdef DPDK_CAPTURE
   $(info - Use DPDK to capture packet)
   MODULE_FLAGS += -DDPDK_MODULE
   MODULE_SRCS  += $(wildcard $(SRC_DIR)/modules/packet_capture/dpdk/*.c)
-  
+
   #we need to export these variables as we need them in the second call of compile-dpdk.mk by the makefile of DPDK
   export MODULE_FLAGS
   export MODULE_SRCS
   export MODULE_LIBS
-  
+
   ifdef STATIC_LINK
     $(error DPDK_CAPTURE and STATIC_LINK cannot be together)
+  endif
+else ifdef EBPF_CAPTURE
+  $(eval $(call _info,- Use eBPF/AF_XDP to capture packet))
+  MODULE_FLAGS += -DEBPF_MODULE
+  MODULE_SRCS  += $(wildcard $(SRC_DIR)/modules/packet_capture/ebpf/*.c)
+  # Reuse the lock-free SPSC ring from the PCAP module for worker dispatch
+  MODULE_SRCS  += $(SRC_DIR)/modules/packet_capture/pcap/data_spsc_ring.c
+  MODULE_SRCS  += $(SRC_DIR)/modules/packet_capture/pcap/lock_free_spsc_ring.c
+  # libbpf (AF_XDP), libelf and zlib (libbpf runtime deps)
+  MODULE_LIBS  += -lbpf -lelf -lz
+  ifdef STATIC_LINK
+    $(error EBPF_CAPTURE and STATIC_LINK cannot be together)
   endif
 else
   $(eval $(call _info,- Use PCAP to capture packet))

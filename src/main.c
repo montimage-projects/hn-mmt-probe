@@ -52,6 +52,10 @@
 #include "modules/packet_capture/pcap/pcap_capture.h"
 #endif
 
+#ifdef EBPF_MODULE
+#include "modules/packet_capture/ebpf/ebpf_capture.h"
+#endif
+
 #ifdef SECURITY_MODULE
 #include "modules/security/security.h"
 #endif
@@ -62,6 +66,12 @@
 
 #if defined DPDK_MODULE && defined PCAP_MODULE
 #error("Either DPDK_MODULE or PCAP_MODULE is defined but must not all of them")
+#endif
+#if defined EBPF_MODULE && defined PCAP_MODULE
+#error("EBPF_MODULE and PCAP_MODULE cannot both be defined")
+#endif
+#if defined EBPF_MODULE && defined DPDK_MODULE
+#error("EBPF_MODULE and DPDK_MODULE cannot both be defined")
 #endif
 
 #ifdef DEBUG_MODE
@@ -250,7 +260,9 @@ static inline void _stop_modules( probe_context_t *context){
 	IF_ENABLE_PCAP(
 		pcap_capture_stop(context);
 	)
-
+	IF_ENABLE_EBPF(
+		ebpf_capture_stop(context);
+	)
 }
 
 //global context of MMT-Probe
@@ -439,6 +451,8 @@ static int _main_processing( int argc, char** argv ){
 
 #ifdef DPDK_MODULE
 	dpdk_capture_start( context );
+#elif defined EBPF_MODULE
+	ebpf_capture_start( context );
 #else
 	pcap_capture_start( context );
 #endif

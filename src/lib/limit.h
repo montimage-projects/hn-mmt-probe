@@ -63,6 +63,12 @@
 	#define IF_ENABLE_DPDK( x )
 #endif
 
+#ifdef EBPF_MODULE
+	#define IF_ENABLE_EBPF( x ) x
+#else
+	#define IF_ENABLE_EBPF( x )
+#endif
+
 #ifdef SECURITY_MODULE
 	#define IF_ENABLE_SECURITY( x ) x
 #else
@@ -184,6 +190,7 @@
 #define MODULES_LIST                                   \
 	"DPI"                                              \
 	IF_ENABLE_DPDK( ", DPDK" )                         \
+	IF_ENABLE_EBPF( ", EBPF" )                         \
 	IF_ENABLE_DYNAMIC_CONFIG( ", DYNAMIC_CONF" )       \
 	IF_ENABLE_FTP_RECONSTRUCT( ", FTP_RECONSTRUCT" )   \
 	IF_ENABLE_HTTP_RECONSTRUCT( ", HTTP_RECONSTRUCT" ) \

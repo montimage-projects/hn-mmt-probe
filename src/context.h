@@ -60,6 +60,9 @@ typedef struct probe_context_struct{
 #ifdef PCAP_MODULE
 		struct pcap_probe_context_struct *pcap;
 #endif
+#ifdef EBPF_MODULE
+		struct ebpf_probe_context_struct *ebpf;
+#endif
 	}modules;
 }probe_context_t;
 
