@@ -51,3 +51,6 @@ openspec/
 CLAUDE.md
 AGENTS.md
 .claude/
+/.externalToolBuilders/
+context.sh
+summary.md

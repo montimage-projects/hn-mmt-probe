@@ -76,6 +76,7 @@ HTTP_RECONSTRUCT_MODULE  SOCKET_MODULE            keygen
 KAFKA_MODULE             TCP_REASSEMBLY_MODULE    rpm
 LICENSE_MODULE           VERBOSE                  
 MONGODB_MODULE           compile                    
+
 ```
 
 The options are in *UPPERCASE*, while the action are in *lowercase*. 
@@ -106,7 +107,7 @@ This option enables a simple version of DPI reports: only some attributes (sourc
 
 ##### `DPDK_CAPTURE`
 
-MMT-Probe supports either libpcap or dpdk to capture packets.
+MMT-Probe supports either libpcap, dpdk, or ebpf to capture packets.
 Libpcap is selected by default. 
 
 ```bash
@@ -114,6 +115,13 @@ Libpcap is selected by default.
 make DPDK_CAPTURE compile
 #Use PCAP
 make compile
+```
+
+##### `EBPF_CAPTURE`
+
+```bash
+sudo apt install libbpf-dev libelf-dev
+make EBPF_CAPTURE compile
 ```
 
 ##### **Output modules**:  `REDIS_MODULE`, `KAFKA_MODULE`, `MQTT_MODULE`, `MONGODB_MODULE`

@@ -3,6 +3,8 @@
  * xdp_kern.c — XDP kernel program for MMT-Probe AF_XDP capture.
  *
  * This file is provided as a REFERENCE / CUSTOMISATION POINT only.
+ * It has no actual effect on MMT-Probe.
+ *
  * By default, MMT-Probe lets libbpf auto-load its own equivalent built-in
  * program.  If you want to replace that with a customised version (e.g. to
  * add kernel-side filtering), compile this file with clang and pass the

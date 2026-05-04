@@ -440,7 +440,9 @@ static inline input_source_conf_t * _parse_input_source( cfg_t *cfg ){
 
 #ifndef DPDK_MODULE
 #ifndef PCAP_MODULE
-	#error("Neither DPDK nor PCAP is defined")
+#ifndef EBPF_MODULE
+	#error("Neither DPDK nor PCAP nor EBPF is defined")
+#endif
 #endif
 #endif
 
