@@ -5,7 +5,8 @@ on:
     tags: ["v*"]
 
 env:
-  IMAGE: ghcr.io/montimage/mmt-probe
+  #IMAGE: ghcr.io/montimage/mmt-probe
+  IMAGE: ghcr.io/montimage-projects/hn-mmt-probe
 
 jobs:
   build:
